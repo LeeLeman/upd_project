@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Hotel Details{% endblock %}
+
+{% block content %}
+<h1>{{ hotel.name }}</h1>
+<p><strong>Address:</strong> {{ hotel.city.country.name }}, {{ hotel.city.name }}, {{ hotel.address }}</p>
+<p><strong>Description:</strong> {{ hotel.description }}</p>
+<p><strong>Stars:</strong> {{ hotel.stars }}</p>
+
+<!-- Кнопка для перехода к списку комнат -->
+<a href="/hotels/{{ hotel.id }}/rooms" class="btn btn-secondary mt-3">View Rooms</a>
+
+<!-- Кнопка для редактирования отеля -->
+<a href="/hotels/{{ hotel.id }}/edit" class="btn btn-primary mt-3">Edit Hotel</a>
+
+<form action="/hotels/{{ hotel.id }}/delete" method="post" style="display: inline;">
+    <button type="submit" class="btn btn-danger mt-3" onclick="return confirm('Are you sure you want to delete this hotel?');">Delete Hotel</button>
+</form>
+
+<!-- Кнопка для возврата к списку отелей -->
+<a href="/hotels" class="btn btn-outline-secondary mt-3">Back to Hotels List</a>
+{% endblock %}

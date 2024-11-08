@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Hotel{% endblock %}
+
+{% block content %}
+<h1>Edit Hotel</h1>
+<form action="/hotels/{{ hotel.id }}/edit" method="post">
+    <div class="mb-3">
+        <label for="name" class="form-label">Hotel Name</label>
+        <input type="text" class="form-control" id="name" name="name" value="{{ hotel.name }}" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea class="form-control" id="description" name="description" rows="3">{{ hotel.description }}</textarea>
+    </div>
+
+    <div class="mb-3">
+        <label for="stars" class="form-label">Stars</label>
+        <select class="form-select" id="stars" name="stars" required>
+            {% for star in range(1, 6) %}
+                <option value="{{ star }}" {% if star == hotel.stars %}selected{% endif %}>{{ star }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="country" class="form-label">Country</label>
+        <select class="form-select" id="country" required onchange="loadCities(this.value)">
+            <option value="">Select Country</option>
+            {% for country in countries %}
+                <option value="{{ country.id }}" {% if country.id == hotel.city.country_id %}selected{% endif %}>{{ country.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="city" class="form-label">City</label>
+        <select class="form-select" id="city" name="city_id" required>
+            <option value="">Select City</option>
+            {% for city in hotel.city.country.cities %}
+                <option value="{{ city.id }}" {% if city.id == hotel.city_id %}selected{% endif %}>{{ city.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="address" class="form-label">Address</label>
+        <input type="text" class="form-control" id="address" name="address" value="{{ hotel.address }}" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>
+
+<script>
+function loadCities(countryId) {
+    fetch(`/cities?country_id=` + countryId)
+        .then(response => response.json())
+        .then(data => {
+            const citySelect = document.getElementById('city');
+            citySelect.innerHTML = '<option value="">Select City</option>';  // Очистить текущие города
+            data.forEach(city => {
+                const option = document.createElement('option');
+                option.value = city.id;
+                option.textContent = city.name;
+                citySelect.appendChild(option);
+            });
+        });
+}
+</script>
+{% endblock %}

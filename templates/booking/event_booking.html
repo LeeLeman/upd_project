@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Event Booking Details{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Booking Details</h2>
+    <p><strong>Booking ID:</strong> {{ booking.id }}</p>
+    <p><strong>Tickets:</strong> {{ booking.tickets }}</p>
+    <p><strong>Booking Price:</strong> {{ price }}</p>
+    <p><strong>Booking Status:</strong> {{ booking.status }}</p>
+    <div class="mt-4">
+        {% if booking.status == "created" %}
+        <form action="/booking/ticket_booking/{{ booking.id }}/pay" method="post" style="display: inline;">
+            <button type="submit" class="btn btn-success">Pay</button>
+        </form>
+        {% endif %}
+
+        {% if booking.status == "created" or booking.status == "paid" %}
+        <form action="/booking/ticket_booking/{{ booking.id }}/cancel" method="post" style="display: inline;">
+            <button type="submit" class="btn btn-danger">Cancel</button>
+        </form>
+        {% endif %}
+    </div>
+    <a href="/booking" class="btn btn-secondary mt-3">Back to Bookings</a>
+</div>
+{% endblock %}

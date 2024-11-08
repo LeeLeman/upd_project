@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block title %}ОстровОК{% endblock %}
+
+{% block content %}
+
+{% if request.state.user %}
+    {% if request.state.user.role == "extranet_admin" %}
+        <h2>Manage Your Hotels and Events</h2>
+        <ul class="list-group mb-4">
+            <li class="list-group-item">
+                <a href="/hotels/" class="text-decoration-none">Manage Hotels and Rooms</a>
+            </li>
+            <li class="list-group-item">
+                <a href="/events/" class="text-decoration-none">Manage Events and Tickets</a>
+            </li>
+        </ul>
+    {% elif request.state.user.role == "system_admin" %}
+        <h2>Admin Dashboard</h2>
+        <ul class="list-group mb-4">
+            <li class="list-group-item">
+                <a href="/admin/countries" class="text-decoration-none">Manage Countries</a>
+            </li>
+            <li class="list-group-item">
+                <a href="/admin/cities" class="text-decoration-none">Manage Cities</a>
+            </li>
+            <li class="list-group-item">
+                <a href="/admin/users" class="text-decoration-none">Manage Users</a>
+            </li>
+            <li class="list-group-item">
+                <a href="/hotels" class="text-decoration-none">Manage Hotels</a>
+            </li>
+            <li class="list-group-item">
+                <a href="/events" class="text-decoration-none">Manage Events</a>
+            </li>
+            <li class="list-group-item">
+                <a href="/booking" class="text-decoration-none">Manage Bookings</a>
+            </li>
+        </ul>
+    {% endif %}
+{% endif %}
+
+{% if not request.state.user or request.state.user.role == "user" %}
+    <h2>Search Hotels and Events</h2>
+    <form action="/search" method="get" class="p-4 border rounded bg-light">
+        <div class="mb-3">
+            <label for="search_type" class="form-label">Type</label>
+            <select class="form-select" id="search_type" name="search_type" required>
+                <option value="" disabled selected>Type</option>
+                <option value="hotel">Hotel</option>
+                <option value="event">Event</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="country" class="form-label">Country</label>
+            <select class="form-select" id="country" name="country" required onchange="loadCities(this.value)">
+                <option value="" disabled selected>Select Country</option>
+                {% for country in countries %}
+                    <option value="{{ country.id }}">{{ country.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="city" class="form-label">City</label>
+            <select class="form-select" id="city" name="city" required>
+                <option value="" disabled selected>Select City</option>
+            </select>
+        </div>
+
+        <div id="date-fields" style="display: none;">
+            <div class="mb-3">
+                <label for="check_in" class="form-label">Check-in Date</label>
+                <input type="date" class="form-control" id="check_in" name="check_in" min="{{ today }}">
+            </div>
+            <div class="mb-3">
+                <label for="check_out" class="form-label">Check-out Date</label>
+                <input type="date" class="form-control" id="check_out" name="check_out" min="{{ today }}">
+            </div>
+        </div>
+
+        <div class="mb-3" id="guests-field" style="display: none;">
+            <label for="guests" class="form-label">Guests</label>
+            <input type="number" class="form-control" id="guests" name="guests" min="1" placeholder="Number of Guests">
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Search</button>
+    </form>
+{% endif %}
+
+<script>
+    function loadCities(countryId) {
+        fetch(`/cities?country_id=` + countryId)
+            .then(response => response.json())
+            .then(data => {
+                const citySelect = document.getElementById('city');
+                citySelect.innerHTML = '<option value="" disabled selected>City</option>';
+                data.forEach(city => {
+                    const option = document.createElement('option');
+                    option.value = city.id;
+                    option.textContent = city.name;
+                    citySelect.appendChild(option);
+                });
+            });
+    }
+
+    document.getElementById('search_type').addEventListener('change', function () {
+        const type = this.value;
+        document.getElementById('date-fields').style.display = type === 'hotel' ? 'block' : 'none';
+        document.getElementById('guests-field').style.display = type === 'hotel' ? 'block' : 'none';
+    });
+
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('check_in').setAttribute('min', today);
+    document.getElementById('check_out').setAttribute('min', today);
+
+    document.querySelector("form").addEventListener("submit", function(event) {
+        const type = document.getElementById("search_type").value;
+        if (type === "event") {
+            document.getElementById("check_in").removeAttribute("name");
+            document.getElementById("check_out").removeAttribute("name");
+            document.getElementById("guests").removeAttribute("name");
+        }
+    });
+</script>
+
+{% endblock %}

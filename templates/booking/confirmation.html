@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Booking Confirmation{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Booking Confirmation</h2>
+    <p>Your booking has been successfully created!</p>
+    <p>
+        {% if booking_object == "room" %}
+        <a href="/booking/room_booking/{{ booking_id }}" class="btn btn-primary">View Booking Details</a>
+        {% else %}
+        <a href="/booking/ticket_booking/{{ booking_id }}" class="btn btn-primary">View Booking Details</a>
+        {% endif %}
+    </p>
+    <a href="/" class="btn btn-secondary mt-3">Back to Home</a>
+</div>
+{% endblock %}

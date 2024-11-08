@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Search Results{% endblock %}
+
+{% block content %}
+<h2>Search Results</h2>
+
+{% if results %}
+    <div class="row">
+        {% for item in results %}
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- Основная информация об объекте -->
+                        {% if search_type == "hotel" %}
+                            <h5 class="card-title">{{ item.name }} (Hotel)</h5>
+                            <p class="card-text">
+                                <strong>Address:</strong> {{ item.city.name }}, {{ item.city.country.name }}, {{ item.address }}<br>
+                                <strong>Stars:</strong> {{ item.stars }}<br>
+                                <strong>Description:</strong> {{ item.description }}
+                            </p>
+                            <h6>Rooms</h6>
+                            {% if item.rooms %}
+                                <ul class="list-group">
+                                    {% for room in item.rooms %}
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <strong>{{ room.name }}</strong> - Capacity: {{ room.capacity }}<br>
+                                                Bed Type: {{ room.bed_type }}, {{ room.bed_number }} beds<br>
+                                                Price per Night: {{ room.price_per_night }} USD
+                                            </div>
+                                            {% if request.state.user %}
+                                                <form action="/booking/room/{{ room.id }}" method="get">
+                                                    <button type="submit" class="btn btn-primary">Book</button>
+                                                </form>
+                                            {% endif %}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <p>No rooms available.</p>
+                            {% endif %}
+                        {% elif search_type == "event" %}
+                            <h5 class="card-title">{{ item.name }} (Event)</h5>
+                            <p class="card-text">
+                                <strong>Address:</strong> {{ item.city.name }}, {{ item.city.country.name }}, {{ item.address }}<br>
+                                <strong>Age Limit:</strong> {{ item.age_limit }}<br>
+                                <strong>Description:</strong> {{ item.description }}
+                            </p>
+                            <h6>Tickets</h6>
+                            {% if item.tickets %}
+                                <ul class="list-group">
+                                    {% for ticket in item.tickets %}
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <strong>{{ ticket.name }}</strong><br>
+                                                Date: {{ ticket.date_start }} at {{ ticket.time_start }}<br>
+                                                Price: {{ ticket.price }} USD
+                                            </div>
+                                            <form action="/booking/ticket/{{ ticket.id }}" method="post" class="d-flex">
+                                                <input type="number" name="quantity" min="1" max="{{ ticket.available_tickets }}" class="form-control me-2" placeholder="Qty" required style="width: 80px;">
+                                                <button type="submit" class="btn btn-primary">Book</button>
+                                            </form>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <p>No tickets available.</p>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No results found for your search criteria.</p>
+{% endif %}
+
+<a href="/" class="btn btn-secondary mt-3">Back to Search</a>
+{% endblock %}

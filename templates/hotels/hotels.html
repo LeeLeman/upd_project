@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}My Hotels{% endblock %}
+
+{% block content %}
+<h1>My Hotels</h1>
+
+<!-- Кнопка для добавления отеля -->
+{% if request.state.user.role == "extranet_admin" %}
+<div class="d-flex justify-content-end mb-3">
+    <a href="/hotels/add" class="btn btn-primary">Add Hotel</a>
+</div>
+{% endif %}
+
+<!-- Проверяем, есть ли отели -->
+{% if hotels %}
+    <ul class="list-group">
+        {% for hotel in hotels %}
+            <li class="list-group-item">
+                <!-- Ссылка на детальную страницу отеля -->
+                <a href="/hotels/{{ hotel.id }}" class="text-decoration-none">{{ hotel.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No hotels available. You have not added any hotels yet.</p>
+{% endif %}
+
+{% endblock %}

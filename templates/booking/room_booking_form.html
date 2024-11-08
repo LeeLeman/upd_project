@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Room Booking{% endblock %}
+
+{% block content %}
+<h2>Room Booking</h2>
+
+<form action="/booking/room/{{ room.id }}" method="post" id="bookingForm" class="p-4 border rounded bg-light">
+    <h4>Booking Dates</h4>
+    <div class="mb-3">
+        <label for="check_in" class="form-label">Check-in Date</label>
+        <input type="date" class="form-control" id="check_in" name="check_in" min="{{ today }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="check_out" class="form-label">Check-out Date</label>
+        <input type="date" class="form-control" id="check_out" name="check_out" min="{{ today }}" required>
+    </div>
+
+    <h4>Guests</h4>
+    <div id="guests-container"></div>
+    <div class="d-flex flex-column align-items-start">
+        <button type="button" class="btn btn-secondary mb-3" onclick="addGuest()">Add Guest</button>
+        <button type="submit" class="btn btn-primary">Book</button>
+    </div>
+</form>
+
+<script>
+    let guestCount = 0;
+    const maxGuests = parseInt("{{ room.capacity }}", 10);
+
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('check_in').setAttribute('min', today);
+    document.getElementById('check_out').setAttribute('min', today);
+
+    function addGuest() {
+        if (guestCount >= maxGuests) {
+            alert(`Maximum guests limit (${maxGuests}) reached.`);
+            return;
+        }
+        guestCount++;
+
+        const container = document.getElementById('guests-container');
+        const guestDiv = document.createElement('div');
+        guestDiv.classList.add('mb-3', 'guest-entry');
+        guestDiv.innerHTML = `
+            <label>Guest ${guestCount}</label>
+            <input type="text" class="form-control mb-2" name="guest_first_name_${guestCount}" placeholder="First Name" required>
+            <input type="text" class="form-control mb-2" name="guest_last_name_${guestCount}" placeholder="Last Name" required>
+            <input type="text" class="form-control mb-2" name="guest_patronymic_${guestCount}" placeholder="Patronymic">
+        `;
+        container.appendChild(guestDiv);
+    }
+</script>
+
+{% endblock %}

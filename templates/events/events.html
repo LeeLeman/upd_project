@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}My Events{% endblock %}
+
+{% block content %}
+<h1>My Events</h1>
+
+<div class="d-flex justify-content-end mb-3">
+    <a href="/events/add" class="btn btn-primary">Add Event</a>
+</div>
+
+{% if events %}
+    <ul class="list-group">
+        {% for event in events %}
+            <li class="list-group-item">
+                <a href="/events/{{ event.id }}" class="text-decoration-none">{{ event.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No events available. You have not added any events yet.</p>
+{% endif %}
+
+{% endblock %}

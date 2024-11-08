@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Ticket for {{ ticket.name }}{% endblock %}
+
+{% block content %}
+<h1>Edit Ticket for {{ ticket.name }}</h1>
+<form action="/events/{{ event_id }}/tickets/{{ ticket.id }}/edit" method="post">
+    <div class="mb-3">
+        <label for="name" class="form-label">Ticket Name</label>
+        <input type="text" class="form-control" id="name" name="name" value="{{ ticket.name }}" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="date_start" class="form-label">Start Date</label>
+        <input type="date" class="form-control" id="date_start" name="date_start" value="{{ ticket.date_start }}" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="time_start" class="form-label">Start Time</label>
+        <input type="time" class="form-control" id="time_start" name="time_start" value="{{ ticket.time_start }}">
+    </div>
+
+    <div class="mb-3">
+        <label for="available_tickets" class="form-label">Available Tickets</label>
+        <input type="number" class="form-control" id="available_tickets" name="available_tickets" min="0" value="{{ ticket.available_tickets }}" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="cancellation_policy" class="form-label">Cancellation Policy</label>
+        <textarea class="form-control" id="cancellation_policy" name="cancellation_policy" rows="3">{{ ticket.cancellation_policy }}</textarea>
+    </div>
+
+    <div class="mb-3">
+        <label for="price" class="form-label">Price (USD)</label>
+        <input type="number" class="form-control" id="price" name="price" value="{{ ticket.price }}" step="0.01" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>
+
+<a href="/events/{{ event_id }}/tickets/{{ ticket.id }}" class="btn btn-outline-secondary mt-3">Back to Ticket</a>
+{% endblock %}

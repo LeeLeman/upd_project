@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Room Booking Details{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Booking Details</h2>
+    <p><strong>Booking ID:</strong> {{ booking.id }}</p>
+    <p><strong>Check-in Date:</strong> {{ booking.check_in }}</p>
+    <p><strong>Check-out Date:</strong> {{ booking.check_out }}</p>
+    <p><strong>Booking Price:</strong> {{ price }}</p>
+    <p><strong>Booking Status:</strong> {{ booking.status }}</p>
+
+    {% if request.state.user.role != "user" %}
+    <p><strong>Created By:</strong> {{ booking.user.last_name }} {{ booking.user.first_name }} {{ booking.user.patronymic }}</p>
+    <p><strong>Email:</strong> {{ booking.user.email }}</p>
+    <p><strong>Contact Number:</strong> {{ booking.user.contact_number }}</p>
+    {% endif %}
+
+    {% if booking.guest_list %}
+        <h4>Guests:</h4>
+        <ul>
+            {% for guest in booking.guest_list %}
+                <li>{{ guest.first_name }} {{ guest.last_name }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <div class="mt-4">
+        {% if request.state.user.user_id == booking.user_id %}
+            {% if booking.status == "created" %}
+            <form action="/booking/room_booking/{{ booking.id }}/pay" method="post" style="display: inline;">
+                <button type="submit" class="btn btn-success">Pay</button>
+            </form>
+            {% endif %}
+
+            {% if booking.status == "created" or booking.status == "paid" %}
+            <form action="/booking/room_booking/{{ booking.id }}/cancel" method="post" style="display: inline;">
+                <button type="submit" class="btn btn-danger">Cancel</button>
+            </form>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    <a href="/booking" class="btn btn-secondary mt-3">Back to Bookings</a>
+</div>
+{% endblock %}

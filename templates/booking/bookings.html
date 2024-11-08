@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Bookings{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Your Hotel Bookings</h2>
+
+    {% if hotel_bookings %}
+        <ul class="list-group mb-4">
+            {% for booking in hotel_bookings %}
+                <li class="list-group-item">
+                    <a href="room_booking/{{ booking.id }}" class="text-decoration-none">
+                        Hotel: {{ booking.room.hotel.name }} from {{ booking.check_in }} to {{ booking.check_out }}
+                    </a>
+                    <p>Room: {{ booking.room.name }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You have no hotel bookings.</p>
+    {% endif %}
+
+    <h2>Your Event Bookings</h2>
+
+    {% if event_bookings %}
+        <ul class="list-group">
+            {% for booking in event_bookings %}
+                <li class="list-group-item">
+                    <a href="ticket_booking/{{ booking.id }}" class="text-decoration-none">
+                        Event: {{ booking.ticket.event.name }} on {{ booking.ticket.date_start }}
+                    </a>
+                    <p>Tickets: {{ booking.tickets }} x {{ booking.ticket.name }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You have no event bookings.</p>
+    {% endif %}
+</div>
+{% endblock %}

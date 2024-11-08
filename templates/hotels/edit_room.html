@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Room for {{ room.name }}{% endblock %}
+
+{% block content %}
+<h1>Edit Room for {{ room.name }}</h1>
+<form action="/hotels/{{ hotel_id }}/rooms/{{ room.id }}/edit" method="post">
+    <div class="mb-3">
+        <label for="name" class="form-label">Room Name</label>
+        <input type="text" class="form-control" id="name" name="name" value="{{ room.name }}" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="capacity" class="form-label">Capacity</label>
+        <input type="number" class="form-control" id="capacity" name="capacity" value="{{ room.capacity }}" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="bed_type" class="form-label">Bed Type</label>
+        <input type="text" class="form-control" id="bed_type" name="bed_type" value="{{ room.bed_type }}" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="bed_number" class="form-label">Number of Beds</label>
+        <input type="number" class="form-control" id="bed_number" name="bed_number" value="{{ room.bed_number }}" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="meal_type" class="form-label">Meal Type</label>
+        <input type="text" class="form-control" id="meal_type" name="meal_type" value="{{ room.meal_type }}" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="cancellation_policy" class="form-label">Cancellation Policy</label>
+        <textarea class="form-control" id="cancellation_policy" name="cancellation_policy" rows="3">{{ room.cancellation_policy }}</textarea>
+    </div>
+
+    <div class="mb-3">
+        <label for="available_from" class="form-label">Available From</label>
+        <input type="date" class="form-control" id="available_from" name="available_from" value="{{ room.available_from.strftime('%Y-%m-%d') if room.available_from else '' }}">
+    </div>
+    <div class="mb-3">
+        <label for="available_until" class="form-label">Available Until</label>
+        <input type="date" class="form-control" id="available_until" name="available_until" value="{{ room.available_until.strftime('%Y-%m-%d') if room.available_until else '' }}">
+    </div>
+
+    <div class="mb-3">
+        <label for="price_per_night" class="form-label">Price per Night (USD)</label>
+        <input type="number" class="form-control" id="price_per_night" name="price_per_night" value="{{ room.price_per_night }}" step="0.01" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>
+
+<a href="/hotels/{{ hotel_id }}/rooms/{{ room.id }}" class="btn btn-outline-secondary mt-3">Back to Room</a>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Countries{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Manage Countries</h2>
+
+    <!-- Форма для добавления страны -->
+    <form action="/admin/countries/add" method="post" class="mb-3">
+        <div class="input-group">
+            <input type="text" name="name" class="form-control" placeholder="Country Name" required>
+            <button class="btn btn-primary" type="submit">Add Country</button>
+        </div>
+    </form>
+
+    <!-- Список стран -->
+    <ul class="list-group">
+        {% for country in countries %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span>{{ country.name }}</span>
+                <div>
+                    <!-- Кнопка редактирования -->
+                    <form action="/admin/countries/edit/{{ country.id }}" method="post" style="display: inline;">
+                        <input type="text" name="name" value="{{ country.name }}" class="form-control d-inline" required>
+                        <button type="submit" class="btn btn-sm btn-secondary">Edit</button>
+                    </form>
+
+                    <!-- Кнопка удаления -->
+                    <form action="/admin/countries/delete/{{ country.id }}" method="post" style="display: inline;">
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
