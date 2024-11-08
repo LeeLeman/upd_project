@@ -5,17 +5,14 @@
 {% block content %}
 <h1>Rooms for {{ hotel.name }}</h1>
 
-<!-- Кнопка для добавления комнаты -->
 <div class="d-flex justify-content-end mb-3">
     <a href="/hotels/{{ hotel.id }}/rooms/add" class="btn btn-primary">Add Room</a>
 </div>
 
-<!-- Проверяем, есть ли комнаты -->
 {% if rooms %}
     <ul class="list-group">
         {% for room in rooms %}
             <li class="list-group-item">
-                <!-- Ссылка на страницу комнаты -->
                 <a href="/hotels/{{ hotel.id }}/rooms/{{ room.id }}" class="text-decoration-none">
                     <strong>{{ room.name }}</strong>
                 </a>

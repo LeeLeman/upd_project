@@ -24,7 +24,10 @@
         </div>
         <div class="mb-3">
             <label for="contact_number" class="form-label">Contact Number</label>
-            <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{ user.contact_number }}">
+            <input type="tel" class="form-control" id="contact_number" name="contact_number"
+                   placeholder="+7XXXXXXXXXX"
+                   pattern="^\+7[0-9]{10}$"
+                   value="{{ user.contact_number }}">
         </div>
         <button type="submit" class="btn btn-primary">Save Changes</button>
     </form>

@@ -9,17 +9,25 @@
     <p><strong>Tickets:</strong> {{ booking.tickets }}</p>
     <p><strong>Booking Price:</strong> {{ price }}</p>
     <p><strong>Booking Status:</strong> {{ booking.status }}</p>
-    <div class="mt-4">
-        {% if booking.status == "created" %}
-        <form action="/booking/ticket_booking/{{ booking.id }}/pay" method="post" style="display: inline;">
-            <button type="submit" class="btn btn-success">Pay</button>
-        </form>
-        {% endif %}
+    {% if request.state.user.role != "user" %}
+    <p><strong>Created By:</strong> {{ booking.user.last_name }} {{ booking.user.first_name }} {{ booking.user.patronymic }}</p>
+    <p><strong>Email:</strong> {{ booking.user.email }}</p>
+    <p><strong>Contact Number:</strong> {{ booking.user.contact_number }}</p>
+    {% endif %}
 
-        {% if booking.status == "created" or booking.status == "paid" %}
-        <form action="/booking/ticket_booking/{{ booking.id }}/cancel" method="post" style="display: inline;">
-            <button type="submit" class="btn btn-danger">Cancel</button>
-        </form>
+    <div class="mt-4">
+        {% if request.state.user.user_id == booking.user_id %}
+            {% if booking.status == "created" %}
+            <form action="/booking/ticket_booking/{{ booking.id }}/pay" method="post" style="display: inline;">
+                <button type="submit" class="btn btn-success">Pay</button>
+            </form>
+            {% endif %}
+
+            {% if booking.status == "created" or booking.status == "paid" %}
+            <form action="/booking/ticket_booking/{{ booking.id }}/cancel" method="post" style="display: inline;">
+                <button type="submit" class="btn btn-danger">Cancel</button>
+            </form>
+            {% endif %}
         {% endif %}
     </div>
     <a href="/booking" class="btn btn-secondary mt-3">Back to Bookings</a>

@@ -6,13 +6,11 @@
 <div class="container mt-5">
     <h2>Manage Users</h2>
 
-    <!-- Список пользователей -->
     <ul class="list-group">
         {% for user in users %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <span>{{ user.email }} - Role: {{ user.role }}</span>
                 <div>
-                    <!-- Форма для изменения роли пользователя -->
                     <form action="/admin/users/edit/{{ user.id }}" method="post" style="display: inline;">
                         <select name="role" class="form-select d-inline" required>
                             <option value="user" {% if user.role == "user" %}selected{% endif %}>User</option>
@@ -22,7 +20,6 @@
                         <button type="submit" class="btn btn-sm btn-secondary">Change Role</button>
                     </form>
 
-                    <!-- Кнопка удаления пользователя -->
                     <form action="/admin/users/delete/{{ user.id }}" method="post" style="display: inline;">
                         <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                     </form>

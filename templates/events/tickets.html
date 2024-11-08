@@ -5,17 +5,14 @@
 {% block content %}
 <h1>Tickets for {{ event.name }}</h1>
 
-<!-- Кнопка для добавления комнаты -->
 <div class="d-flex justify-content-end mb-3">
     <a href="/events/{{ event.id }}/tickets/add" class="btn btn-primary">Add Ticket</a>
 </div>
 
-<!-- Проверяем, есть ли комнаты -->
 {% if tickets %}
     <ul class="list-group">
         {% for ticket in tickets %}
             <li class="list-group-item">
-                <!-- Ссылка на страницу комнаты -->
                 <a href="/events/{{ event.id }}/tickets/{{ ticket.id }}" class="text-decoration-none">
                     <strong>{{ ticket.name }}</strong>
                 </a>
