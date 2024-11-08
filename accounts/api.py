@@ -3,12 +3,8 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
-from accounts.logic import (
-    create_access_token,
-    get_current_user,
-    hash_password,
-    verify_password,
-)
+from accounts.logic import (create_access_token, get_current_user,
+                            hash_password, verify_password)
 from accounts.models import User
 from database import get_db
 

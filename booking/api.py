@@ -240,8 +240,6 @@ def book_ticket(
     if quantity > ticket.available_tickets:
         raise HTTPException(status_code=400, detail="Not enough tickets available")
 
-    # ticket.available_tickets -= quantity
-
     booking = EventBooking(
         tickets=quantity,
         ticket_id=ticket_id,

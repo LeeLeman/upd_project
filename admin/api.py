@@ -78,9 +78,7 @@ def list_cities(
     current_user: User = Depends(admin_required),
 ):
     cities = db.query(City).all()
-    countries = db.query(
-        Country
-    ).all()  # Для выбора страны при добавлении/изменении города
+    countries = db.query(Country).all()
     return templates.TemplateResponse(
         "admin/cities.html",
         {"request": request, "cities": cities, "countries": countries},
