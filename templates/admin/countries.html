@@ -7,7 +7,10 @@
     <h2>Manage Countries</h2>
     <form action="/admin/countries/add" method="post" class="mb-3">
         <div class="input-group">
-            <input type="text" name="name" class="form-control" placeholder="Country Name" required>
+            <input type="text" name="name" class="form-control" placeholder="Country Name"
+                   pattern="^[A-Za-zА-Яа-яЁё]+$" maxlength="32"
+                   title="Сan only contain letters and should be up to 32 characters"
+                   required>
             <button class="btn btn-primary" type="submit">Add Country</button>
         </div>
     </form>

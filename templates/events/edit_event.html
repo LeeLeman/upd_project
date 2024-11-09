@@ -45,7 +45,10 @@
         <input type="text" class="form-control" id="address" name="address" value="{{ event.address }}" required>
     </div>
 
-    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a href="/events/{{ event.id }}" class="btn btn-secondary">Back to Event</a>
+    </div>
 </form>
 
 <script>

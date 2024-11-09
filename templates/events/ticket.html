@@ -3,11 +3,16 @@
 {% block title %}Ticket Details{% endblock %}
 
 {% block content %}
+{% set cancellation_policy_map = {
+    "free_cancellation": "Free Cancellation",
+    "no_cancellation": "No Cancellation"
+} %}
+
 <h1>{{ ticket.name }}</h1>
 <p><strong>Date Start:</strong> {{ ticket.date_start }}</p>
 <p><strong>Time Start:</strong> {{ ticket.time_start }}</p>
 <p><strong>Available Tickets:</strong> {{ ticket.available_tickets }}</p>
-<p><strong>Cancellation Policy:</strong> {{ ticket.cancellation_policy }}</p>
+<p><strong>Cancellation Policy:</strong> {{ cancellation_policy_map[ticket.cancellation_policy] }}</p>
 <p><strong>Price:</strong> {{ ticket.price }} USD</p>
 
 <a href="/events/{{ event_id }}/tickets/{{ ticket.id }}/edit" class="btn btn-primary mt-3">Edit Ticket</a>

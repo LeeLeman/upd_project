@@ -14,3 +14,14 @@ class PaymentStatus(str, Enum):
     PAID = "paid"
     CANCELLED = "cancelled"
     COMPLETED = "completed"
+
+
+class CancellationPolicy(str, Enum):
+    FREE_CANCELLATION = "free_cancellation"
+    NO_CANCELLATION = "no_cancellation"
+
+
+class MealPolicy(str, Enum):
+    NO_MEAL = "no_meal"
+    BREAKFAST = "breakfast"
+    FULLBOARD = "fullboard"

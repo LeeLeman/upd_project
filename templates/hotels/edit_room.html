@@ -27,12 +27,21 @@
 
     <div class="mb-3">
         <label for="meal_type" class="form-label">Meal Type</label>
-        <input type="text" class="form-control" id="meal_type" name="meal_type" value="{{ room.meal_type }}" required>
+        <select class="form-select" id="meal_type" name="meal_type" required>
+            <option value="" disabled>Select Meal Type</option>
+            <option value="no_meal" {% if room.meal_type == no_meal %}selected{% endif %}>No Meal</option>
+            <option value="breakfast" {% if room.meal_type == breakfast %}selected{% endif %}>Breakfast</option>
+            <option value="fullboard" {% if room.meal_type == fullboard %}selected{% endif %}>Full Board</option>
+        </select>
     </div>
 
     <div class="mb-3">
         <label for="cancellation_policy" class="form-label">Cancellation Policy</label>
-        <textarea class="form-control" id="cancellation_policy" name="cancellation_policy" rows="3">{{ room.cancellation_policy }}</textarea>
+        <select class="form-select" id="cancellation_policy" name="cancellation_policy" required>
+            <option value="" disabled>Select Cancellation Policy</option>
+            <option value="free_cancellation" {% if room.cancellation_policy == free_cancellation %}selected{% endif %}>Free Cancellation</option>
+            <option value="no_cancellation" {% if room.cancellation_policy == no_cancellation %}selected{% endif %}>No Cancellation</option>
+        </select>
     </div>
 
     <div class="mb-3">
@@ -49,8 +58,9 @@
         <input type="number" class="form-control" id="price_per_night" name="price_per_night" value="{{ room.price_per_night }}" step="0.01" required>
     </div>
 
-    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a href="/hotels/{{ hotel_id }}/rooms/{{ room.id }}" class="btn btn-secondary">Back to Room</a>
+    </div>
 </form>
-
-<a href="/hotels/{{ hotel_id }}/rooms/{{ room.id }}" class="btn btn-outline-secondary mt-3">Back to Room</a>
 {% endblock %}

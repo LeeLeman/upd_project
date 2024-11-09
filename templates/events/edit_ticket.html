@@ -27,7 +27,11 @@
 
     <div class="mb-3">
         <label for="cancellation_policy" class="form-label">Cancellation Policy</label>
-        <textarea class="form-control" id="cancellation_policy" name="cancellation_policy" rows="3">{{ ticket.cancellation_policy }}</textarea>
+        <select class="form-select" id="cancellation_policy" name="cancellation_policy" required>
+            <option value="" disabled>Select Cancellation Policy</option>
+            <option value="free_cancellation" {% if ticket.cancellation_policy == free_cancellation %}selected{% endif %}>Free Cancellation</option>
+            <option value="no_cancellation" {% if ticket.cancellation_policy == no_cancellation %}selected{% endif %}>No Cancellation</option>
+        </select>
     </div>
 
     <div class="mb-3">
@@ -35,8 +39,9 @@
         <input type="number" class="form-control" id="price" name="price" value="{{ ticket.price }}" step="0.01" required>
     </div>
 
-    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a href="/events/{{ event_id }}/tickets/{{ ticket.id }}" class="btn btn-secondary">Back to Ticket</a>
+    </div>
 </form>
-
-<a href="/events/{{ event_id }}/tickets/{{ ticket.id }}" class="btn btn-outline-secondary mt-3">Back to Ticket</a>
 {% endblock %}

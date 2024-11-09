@@ -27,12 +27,21 @@
 
     <div class="mb-3">
         <label for="meal_type" class="form-label">Meal Type</label>
-        <input type="text" class="form-control" id="meal_type" name="meal_type" required>
+        <select class="form-select" id="meal_type" name="meal_type" required>
+            <option value="" disabled selected>Select Meal Type</option>
+            <option value="no_meal">No Meal</option>
+            <option value="breakfast">Breakfast</option>
+            <option value="fullboard">Full Board</option>
+        </select>
     </div>
 
     <div class="mb-3">
         <label for="cancellation_policy" class="form-label">Cancellation Policy</label>
-        <textarea class="form-control" id="cancellation_policy" name="cancellation_policy" rows="3"></textarea>
+        <select class="form-select" id="cancellation_policy" name="cancellation_policy" required>
+            <option value="" disabled selected>Select Cancellation Policy</option>
+            <option value="free_cancellation">Free Cancellation</option>
+            <option value="no_cancellation">No Cancellation</option>
+        </select>
     </div>
 
     <div class="mb-3">
@@ -42,15 +51,42 @@
 
     <div class="mb-3">
         <label for="available_from" class="form-label">Available From</label>
-        <input type="date" class="form-control" id="available_from" name="available_from" min="{{ today }}">
+        <input type="date" class="form-control" id="available_from" name="available_from" min="{{ today }}" required>
     </div>
     <div class="mb-3">
         <label for="available_until" class="form-label">Available Until</label>
-        <input type="date" class="form-control" id="available_until" name="available_until" min="{{ today }}">
+        <input type="date" class="form-control" id="available_until" name="available_until" min="{{ today }}" required>
     </div>
 
-    <button type="submit" class="btn btn-primary">Add Room</button>
+    <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary">Add Room</button>
+        <a href="/hotels/{{ hotel.id }}/rooms" class="btn btn-secondary">Back to Rooms</a>
+    </div>
 </form>
 
-<a href="/hotels/{{ hotel.id }}/rooms" class="btn btn-outline-secondary mt-3">Back to Rooms</a>
+<script>
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('available_from').setAttribute('min', today);
+    document.getElementById('available_until').setAttribute('min', today);
+
+    document.getElementById("available_from").addEventListener("change", validateAvailabilityDates);
+    document.getElementById("available_until").addEventListener("change", validateAvailabilityDates);
+    document.getElementById("roomForm").addEventListener("submit", function(event) {
+        if (!validateAvailabilityDates()) {
+            event.preventDefault();
+        }
+    });
+
+    function validateAvailabilityDates() {
+        const availableFrom = document.getElementById("available_from").value;
+        const availableUntil = document.getElementById("available_until").value;
+
+        if (availableFrom && availableUntil && availableUntil <= availableFrom) {
+            alert("The 'Available Until' date must be later than the 'Available From' date.");
+            document.getElementById("available_until").value = "";
+            return false;
+        }
+        return true;
+    }
+</script>
 {% endblock %}

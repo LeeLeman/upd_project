@@ -1,4 +1,4 @@
-from sqlalchemy import Column, DateTime, Float, ForeignKey, Integer, String
+from sqlalchemy import Column, Date, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from database import Base
@@ -31,8 +31,8 @@ class Room(Base):
     meal_type = Column(String)
     cancellation_policy = Column(String)
     price_per_night = Column(Float, nullable=False, default=0)
-    available_from = Column(DateTime)
-    available_until = Column(DateTime)
+    available_from = Column(Date)
+    available_until = Column(Date)
 
     hotel_id = Column(Integer, ForeignKey("hotel.id", ondelete="CASCADE"))
     hotel = relationship("Hotel", back_populates="rooms")

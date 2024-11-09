@@ -17,25 +17,39 @@
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" required>
+                    <input type="password" class="form-control" id="password" name="password"
+                           minlength="8"
+                           pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+                           title="Password must be at least 8 characters long and contain both letters and numbers"
+                           required>
                 </div>
                 <div class="mb-3">
                     <label for="first_name" class="form-label">First Name</label>
-                    <input type="text" class="form-control" id="first_name" name="first_name" required>
+                    <input type="text" class="form-control" id="first_name" name="first_name"
+                           pattern="^[A-Za-zА-Яа-яЁё]+$" maxlength="32"
+                           title="Сan only contain letters and should be up to 32 characters"
+                           required>
                 </div>
                 <div class="mb-3">
                     <label for="last_name" class="form-label">Last Name</label>
-                    <input type="text" class="form-control" id="last_name" name="last_name" required>
+                    <input type="text" class="form-control" id="last_name" name="last_name"
+                           pattern="^[A-Za-zА-Яа-яЁё]+$" maxlength="32"
+                           title="Сan only contain letters and should be up to 32 characters"
+                           required>
                 </div>
                 <div class="mb-3">
                     <label for="patronymic" class="form-label">Patronymic</label>
-                    <input type="text" class="form-control" id="patronymic" name="patronymic">
+                    <input type="text" class="form-control" id="patronymic" name="patronymic"
+                           pattern="^[A-Za-zА-Яа-яЁё]+$" maxlength="32"
+                           title="Сan only contain letters and should be up to 32 characters">
                 </div>
                 <div class="mb-3">
                     <label for="contact_number" class="form-label">Contact Number</label>
                     <input type="tel" class="form-control" id="contact_number" name="contact_number"
                            placeholder="+7XXXXXXXXXX"
-                           pattern="^\+7[0-9]{10}$">
+                           pattern="^\+7[0-9]{10}$"
+                           title="Please enter a valid Russian phone number in the format +7XXXXXXXXXX"
+                           required>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Register</button>
             </form>

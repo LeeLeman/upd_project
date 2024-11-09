@@ -27,7 +27,11 @@
 
     <div class="mb-3">
         <label for="cancellation_policy" class="form-label">Cancellation Policy</label>
-        <textarea class="form-control" id="cancellation_policy" name="cancellation_policy" rows="3"></textarea>
+        <select class="form-select" id="cancellation_policy" name="cancellation_policy" required>
+            <option value="" disabled selected>Select Cancellation Policy</option>
+            <option value="free_cancellation">Free Cancellation</option>
+            <option value="no_cancellation">No Cancellation</option>
+        </select>
     </div>
 
     <div class="mb-3">
@@ -35,13 +39,14 @@
         <input type="number" class="form-control" id="price" name="price" step="0.01" min="0" required>
     </div>
 
-    <button type="submit" class="btn btn-primary">Add Ticket</button>
+    <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary">Add Ticket</button>
+        <a href="/events/{{ event.id }}/tickets" class="btn btn-secondary">Back to Tickets</a>
+    </div>
 </form>
 
 <script>
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('date_start').setAttribute('min', today);
 </script>
-
-<a href="/events/{{ event.id }}/tickets" class="btn btn-outline-secondary mt-3">Back to Tickets</a>
 {% endblock %}

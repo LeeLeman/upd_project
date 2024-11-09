@@ -12,22 +12,31 @@
         </div>
         <div class="mb-3">
             <label for="first_name" class="form-label">First Name</label>
-            <input type="text" class="form-control" id="first_name" name="first_name" value="{{ user.first_name }}" required>
+            <input type="text" class="form-control" id="first_name" name="first_name" value="{{ user.first_name }}"
+                   pattern="^[A-Za-zА-Яа-яЁё]+$" maxlength="32"
+                   title="Сan only contain letters and should be up to 32 characters"
+                   required>
         </div>
         <div class="mb-3">
             <label for="last_name" class="form-label">Last Name</label>
-            <input type="text" class="form-control" id="last_name" name="last_name" value="{{ user.last_name }}" required>
+            <input type="text" class="form-control" id="last_name" name="last_name" value="{{ user.last_name }}"
+                   pattern="^[A-Za-zА-Яа-яЁё]+$" maxlength="32"
+                   title="Сan only contain letters and should be up to 32 characters"
+                   required>
         </div>
         <div class="mb-3">
             <label for="patronymic" class="form-label">Patronymic</label>
-            <input type="text" class="form-control" id="patronymic" name="patronymic" value="{{ user.patronymic }}">
+            <input type="text" class="form-control" id="patronymic" name="patronymic" value="{{ user.patronymic }}"
+                   pattern="^[A-Za-zА-Яа-яЁё]+$" maxlength="32"
+                   title="Сan only contain letters and should be up to 32 characters">
         </div>
         <div class="mb-3">
             <label for="contact_number" class="form-label">Contact Number</label>
             <input type="tel" class="form-control" id="contact_number" name="contact_number"
                    placeholder="+7XXXXXXXXXX"
                    pattern="^\+7[0-9]{10}$"
-                   value="{{ user.contact_number }}">
+                   value="{{ user.contact_number }}"
+                   required>
         </div>
         <button type="submit" class="btn btn-primary">Save Changes</button>
     </form>

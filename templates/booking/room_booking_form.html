@@ -32,6 +32,47 @@
     document.getElementById('check_in').setAttribute('min', today);
     document.getElementById('check_out').setAttribute('min', today);
 
+    const availableFrom = "{{ room.available_from }}";
+    const availableUntil = "{{ room.available_until }}";
+
+    document.getElementById('check_in').addEventListener('change', validateDates);
+    document.getElementById('check_out').addEventListener('change', validateDates);
+
+    document.getElementById('bookingForm').addEventListener('submit', function(event) {
+        if (!validateDates() || !validateGuests()) {
+            event.preventDefault();
+        }
+    });
+
+    function validateDates() {
+        const checkIn = document.getElementById('check_in').value;
+        const checkOut = document.getElementById('check_out').value;
+
+        if (checkIn && checkOut) {
+            if (checkOut <= checkIn) {
+                alert("Check-out date must be later than check-in date.");
+                document.getElementById('check_out').value = "";
+                return false;
+            }
+
+            if (checkIn < availableFrom || checkOut > availableUntil) {
+                alert(`Booking dates must be within the available range: ${availableFrom} to ${availableUntil}.`);
+                document.getElementById('check_in').value = "";
+                document.getElementById('check_out').value = "";
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function validateGuests() {
+        if (guestCount === 0) {
+            alert("Please add at least one guest.");
+            return false;
+        }
+        return true;
+    }
+
     function addGuest() {
         if (guestCount >= maxGuests) {
             alert(`Maximum guests limit (${maxGuests}) reached.`);

@@ -342,8 +342,8 @@ def update_room(
     room.meal_type = meal_type
     room.cancellation_policy = cancellation_policy
     room.price_per_night = price_per_night
-    room.available_from = (datetime.strptime(available_from, "%Y-%m-%d"),)
-    room.available_until = (datetime.strptime(available_until, "%Y-%m-%d"),)
+    room.available_from = datetime.strptime(available_from, "%Y-%m-%d")
+    room.available_until = datetime.strptime(available_until, "%Y-%m-%d")
     db.commit()
 
     return RedirectResponse(f"/hotels/{hotel_id}/rooms/{room_id}", status_code=303)

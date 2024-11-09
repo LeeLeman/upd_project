@@ -107,8 +107,13 @@
 
     document.getElementById('search_type').addEventListener('change', function () {
         const type = this.value;
+        const isHotel = type === 'hotel';
+
         document.getElementById('date-fields').style.display = type === 'hotel' ? 'block' : 'none';
         document.getElementById('guests-field').style.display = type === 'hotel' ? 'block' : 'none';
+        document.getElementById('check_in').required = isHotel;
+        document.getElementById('check_out').required = isHotel;
+        document.getElementById('guests').required = isHotel;
     });
 
     const today = new Date().toISOString().split('T')[0];
@@ -122,7 +127,27 @@
             document.getElementById("check_out").removeAttribute("name");
             document.getElementById("guests").removeAttribute("name");
         }
+        if (type === "hotel" && !validateDates()) {
+            event.preventDefault();
+        }
     });
+
+    document.getElementById('check_in').addEventListener('change', validateDates);
+    document.getElementById('check_out').addEventListener('change', validateDates);
+
+    function validateDates() {
+        const checkIn = document.getElementById('check_in').value;
+        const checkOut = document.getElementById('check_out').value;
+
+        if (checkIn && checkOut) {
+            if (checkOut <= checkIn) {
+                alert("Check-out date must be later than check-in date.");
+                document.getElementById('check_out').value = "";
+                return false;
+            }
+        }
+        return true;
+    }
 </script>
 
 {% endblock %}

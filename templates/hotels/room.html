@@ -3,11 +3,23 @@
 {% block title %}Room Details{% endblock %}
 
 {% block content %}
+
+{% set cancellation_policy_map = {
+    "free_cancellation": "Free Cancellation",
+    "no_cancellation": "No Cancellation"
+} %}
+
+{% set meal_type_map = {
+    "no_meal": "No Meal",
+    "breakfast": "Breakfast",
+    "fullboard": "Fullboard"
+} %}
+
 <h1>{{ room.name }}</h1>
 <p><strong>Capacity:</strong> {{ room.capacity }}</p>
 <p><strong>Bed Type:</strong> {{ room.bed_type }} ({{ room.bed_number }} beds)</p>
-<p><strong>Meal Type:</strong> {{ room.meal_type }}</p>
-<p><strong>Cancellation Policy:</strong> {{ room.cancellation_policy }}</p>
+<p><strong>Meal Type:</strong> {{ meal_type_map[room.meal_type] }}</p>
+<p><strong>Cancellation Policy:</strong> {{ cancellation_policy_map[room.cancellation_policy] }}</p>
 <p><strong>Price per Night:</strong> {{ room.price_per_night }} USD</p>
 <p><strong>Available From:</strong> {{ room.available_from.strftime('%Y-%m-%d') if room.available_from else 'Not specified' }}</p>
 <p><strong>Available Until:</strong> {{ room.available_until.strftime('%Y-%m-%d') if room.available_until else 'Not specified' }}</p>
