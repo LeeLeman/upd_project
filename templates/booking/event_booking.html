@@ -13,6 +13,8 @@
 <div class="container mt-5">
     <h2>Booking Details</h2>
     <p><strong>Booking ID:</strong> {{ booking.id }}</p>
+    <p><strong>Date:</strong> {{ booking.ticket.date_start }}</p>
+    <p><strong>Time:</strong> {{ booking.ticket.time_start }}</p>
     <p><strong>Tickets:</strong> {{ booking.tickets }}</p>
     <p><strong>Booking Price:</strong> {{ price }}</p>
     <p><strong>Booking Status:</strong> {{ booking_status_map[booking.status] }}</p>
@@ -36,7 +38,22 @@
             </form>
             {% endif %}
         {% endif %}
+        {% if request.state.user.role == "extranet_admin" %}
+            {% if booking.status == "paid" %}
+                <form action="/booking/ticket_booking/{{ booking.id }}/complete" method="post" style="display: inline;">
+                    <button type="submit" class="btn btn-success" disabled>Complete</button>
+                </form>
+            {% endif %}
+        {% endif %}
     </div>
     <a href="/booking" class="btn btn-secondary mt-3">Back to Bookings</a>
 </div>
+<script>
+    const startDate = new Date("{{ booking.ticket.date_start }}");
+    const today = new Date();
+
+    if (today >= startDate) {
+        document.getElementById("completeButton").removeAttribute("disabled");
+    }
+</script>
 {% endblock %}

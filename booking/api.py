@@ -287,7 +287,6 @@ def cancel_room_booking(
     if not booking:
         raise HTTPException(status_code=404, detail="Booking not found")
 
-    booking.is_cancelled = True
     booking.status = PaymentStatus.CANCELLED
     db.commit()
 
@@ -328,8 +327,45 @@ def cancel_ticket_booking(
     if not booking:
         raise HTTPException(status_code=404, detail="Booking not found")
 
-    booking.is_cancelled = True
     booking.status = PaymentStatus.CANCELLED
     db.commit()
 
     return RedirectResponse(url="/booking", status_code=303)
+
+
+@router.post("/room_booking/{booking_id}/complete")
+def complete_room_booking(
+    booking_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    if not current_user:
+        return RedirectResponse("/accounts/login")
+
+    booking = get_user_room_booking(booking_id, current_user, db)
+    if not booking:
+        raise HTTPException(status_code=404, detail="Booking not found")
+
+    booking.status = PaymentStatus.COMPLETED
+    db.commit()
+
+    return RedirectResponse(url=f"/booking/room_booking/{booking_id}", status_code=303)
+
+
+@router.post("/ticket_booking/{booking_id}/complete")
+def complete_ticket_booking(
+    booking_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    if not current_user:
+        return RedirectResponse("/accounts/login")
+
+    booking = get_user_ticket_booking(booking_id, current_user, db)
+    if not booking:
+        raise HTTPException(status_code=404, detail="Booking not found")
+
+    booking.status = PaymentStatus.COMPLETED
+    db.commit()
+
+    return RedirectResponse(url=f"/booking/ticket_booking/{booking_id}", status_code=303)

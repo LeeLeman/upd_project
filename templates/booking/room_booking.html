@@ -47,8 +47,23 @@
             </form>
             {% endif %}
         {% endif %}
+        {% if request.state.user.role == "extranet_admin" %}
+            {% if booking.status == "paid" %}
+                <form action="/booking/room_booking/{{ booking.id }}/complete" method="post" style="display: inline;">
+                    <button type="submit" class="btn btn-success" disabled>Complete</button>
+                </form>
+            {% endif %}
+        {% endif %}
     </div>
 
     <a href="/booking" class="btn btn-secondary mt-3">Back to Bookings</a>
 </div>
+<script>
+    const checkOutDate = new Date("{{ booking.check_out }}");
+    const today = new Date();
+
+    if (today >= checkOutDate) {
+        document.getElementById("completeButton").removeAttribute("disabled");
+    }
+</script>
 {% endblock %}
