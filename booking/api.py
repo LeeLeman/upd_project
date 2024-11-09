@@ -275,7 +275,6 @@ def pay_room_booking(
 
 @router.post("/room_booking/{booking_id}/cancel")
 def cancel_room_booking(
-    request: Request,
     booking_id: int,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
@@ -295,7 +294,6 @@ def cancel_room_booking(
 
 @router.post("/ticket_booking/{booking_id}/pay")
 def pay_ticket_booking(
-    request: Request,
     booking_id: int,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
@@ -315,7 +313,6 @@ def pay_ticket_booking(
 
 @router.post("/ticket_booking/{booking_id}/cancel")
 def cancel_ticket_booking(
-    request: Request,
     booking_id: int,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
