@@ -311,7 +311,7 @@ def pay_ticket_booking(
     booking.status = PaymentStatus.PAID
     db.commit()
 
-    return RedirectResponse(url=f"/booking/room_booking/{booking_id}", status_code=303)
+    return RedirectResponse(url=f"/booking/ticket_booking/{booking_id}", status_code=303)
 
 
 @router.post("/ticket_booking/{booking_id}/cancel")

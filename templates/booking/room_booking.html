@@ -3,13 +3,20 @@
 {% block title %}Room Booking Details{% endblock %}
 
 {% block content %}
+{% set booking_status_map = {
+    "created": "Created",
+    "paid": "Paid",
+    "cancelled": "Cancelled",
+    "completed": "Completed"
+} %}
+
 <div class="container mt-5">
     <h2>Booking Details</h2>
     <p><strong>Booking ID:</strong> {{ booking.id }}</p>
     <p><strong>Check-in Date:</strong> {{ booking.check_in }}</p>
     <p><strong>Check-out Date:</strong> {{ booking.check_out }}</p>
     <p><strong>Booking Price:</strong> {{ price }}</p>
-    <p><strong>Booking Status:</strong> {{ booking.status }}</p>
+    <p><strong>Booking Status:</strong> {{ booking_status_map[booking.status] }}</p>
 
     {% if request.state.user.role != "user" %}
     <p><strong>Created By:</strong> {{ booking.user.last_name }} {{ booking.user.first_name }} {{ booking.user.patronymic }}</p>
