@@ -58,10 +58,12 @@
                                                 Date: {{ ticket.date_start }} at {{ ticket.time_start }}<br>
                                                 Price: {{ ticket.price }} USD
                                             </div>
-                                            <form action="/booking/ticket/{{ ticket.id }}" method="post" class="d-flex">
-                                                <input type="number" name="quantity" min="1" max="{{ ticket.available_tickets }}" class="form-control me-2" placeholder="Qty" required style="width: 80px;">
-                                                <button type="submit" class="btn btn-primary">Book</button>
-                                            </form>
+                                            {% if request.state.user %}
+                                                <form action="/booking/ticket/{{ ticket.id }}" method="post" class="d-flex">
+                                                    <input type="number" name="quantity" min="1" max="{{ ticket.available_tickets }}" class="form-control me-2" placeholder="Qty" required style="width: 80px;">
+                                                    <button type="submit" class="btn btn-primary">Book</button>
+                                                </form>
+                                            {% endif %}
                                         </li>
                                     {% endfor %}
                                 </ul>

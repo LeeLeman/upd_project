@@ -1,5 +1,5 @@
 from sqlalchemy import create_engine
-from sqlalchemy.orm import declarative_base, sessionmaker, Session
+from sqlalchemy.orm import Session, declarative_base, sessionmaker
 
 from common import UserRole
 
@@ -11,8 +11,9 @@ Base = declarative_base()
 
 
 def create_admin_user(db: Session):
-    from accounts.models import User
     from accounts.logic import hash_password
+    from accounts.models import User
+
     admin_exists = db.query(User).filter(User.role == UserRole.SYSTEM_ADMIN).first()
     if not admin_exists:
         admin_user = User(
@@ -21,7 +22,7 @@ def create_admin_user(db: Session):
             email="admin@test.ru",
             contact_number="+71234567899",
             password=hash_password("admin123"),
-            role=UserRole.SYSTEM_ADMIN
+            role=UserRole.SYSTEM_ADMIN,
         )
         db.add(admin_user)
         db.commit()

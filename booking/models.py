@@ -1,7 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import (JSON, Column, Date, DateTime, ForeignKey, Integer,
-                        String)
+from sqlalchemy import JSON, Column, Date, DateTime, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from common import PaymentStatus
