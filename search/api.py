@@ -4,8 +4,10 @@ from typing import Optional
 from fastapi import APIRouter, Depends, Query, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+from sqlalchemy import not_
 from sqlalchemy.orm import Session, contains_eager
 
+from booking.models import HotelBooking
 from database import get_db
 from events.models import Event, Ticket
 from hotels.models import Hotel, Room
@@ -36,6 +38,16 @@ def search_results(
                     Room.available_from <= check_in,
                     Room.available_until >= check_out,
                     Room.capacity >= guests,
+                    not_(
+                        db.query(HotelBooking)
+                        .filter(
+                            HotelBooking.room_id == Room.id,
+                            HotelBooking.check_in < check_out,
+                            HotelBooking.check_out > check_in,
+                            HotelBooking.status.in_(["created", "paid"])
+                        )
+                        .exists()
+                    )
                 )
                 .subquery()
             )

@@ -246,7 +246,9 @@ def book_ticket(
         user_id=request.state.user.get("user_id"),
     )
     db.add(booking)
+    ticket.available_tickets -= booking.tickets
     db.commit()
+
 
     return templates.TemplateResponse(
         "booking/confirmation.html",
@@ -327,6 +329,7 @@ def cancel_ticket_booking(
         raise HTTPException(status_code=404, detail="Booking not found")
 
     booking.status = PaymentStatus.CANCELLED
+    booking.ticket.available_tickets += booking.tickets
     db.commit()
 
     return RedirectResponse(url="/booking", status_code=303)
