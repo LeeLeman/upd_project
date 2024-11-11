@@ -62,7 +62,7 @@ def search_results(
     elif search_type == "event":
         available_tickets = (
             db.query(Ticket)
-            .filter(Ticket.date_start >= datetime.today().date())
+            .filter(Ticket.date_start >= datetime.today().date(), Ticket.available_tickets > 0)
             .subquery()
         )
         results = (

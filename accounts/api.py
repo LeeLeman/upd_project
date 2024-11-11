@@ -62,7 +62,10 @@ def register_user(
 ):
     existing_user = db.query(User).filter(User.email == email).first()
     if existing_user:
-        raise HTTPException(status_code=400, detail="Email already registered")
+        error_message = "This Email already used for registration"
+        return templates.TemplateResponse(
+            "accounts/register.html", {"request": request, "error_message": error_message}
+        )
 
     hashed_password = hash_password(password)
     new_user = User(
